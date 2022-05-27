@@ -10,26 +10,43 @@ const isPrime = (number) => {
   return true;
 };
 
-
 let count = 1;
 
-const from = process.argv[2];
-const to = process.argv[3];
+function checkArgs(processVars) {
+  let args = processVars.splice(2, 2);
+
+  if (args.length < 2) throw new Error(red('Should provide at least 2 vars.'));
+
+  args = args.filter(i => {
+    i = parseInt(i);
+    return !isNaN(i) && i > 0;
+  });
+
+  if (args.length < 2) throw new Error(red('Should provide only natural numbers.'));
+
+  const [from, to] = args;
+
+  if (from > to) throw new Error(red('The first value must be less than the second.'));
+
+  return args;
+}
+
+const [from, to] = checkArgs(process.argv);
 
 for (let number = from; number <= to; number++) {
-  let colorer = green;
+  let color = green;
 
   if (isPrime(number)) {
     if (count % 2 === 0) {
-      colorer = yellow;
+      color = yellow;
       count ++;
     } else if (count % 3 === 0) {
-      colorer = red;
+      color = red;
       count = 1;
     } else {
       count ++;
     }
 
-    console.log(colorer(number));
+    console.log(color(number));
   }
 }
