@@ -1,17 +1,5 @@
 const { green, yellow, red } = require("colors/safe");
 
-const isPrime = (number) => {
-  if (number < 2) return false;
-
-  for (let i = 2; i <= number / 2; i++) {
-    if (number % i === 0) return false;
-  }
-
-  return true;
-};
-
-let count = 1;
-
 function checkArgs(processVars) {
   let args = processVars.splice(2, 2);
 
@@ -20,7 +8,7 @@ function checkArgs(processVars) {
   args = args.filter(i => {
     i = parseInt(i);
     return !isNaN(i) && i > 0;
-  });
+  }).map(i => Number(i));
 
   if (args.length < 2) throw new Error(red('Should provide only natural numbers.'));
 
@@ -33,20 +21,35 @@ function checkArgs(processVars) {
 
 const [from, to] = checkArgs(process.argv);
 
-for (let number = from; number <= to; number++) {
-  let color = green;
-
-  if (isPrime(number)) {
-    if (count % 2 === 0) {
-      color = yellow;
-      count ++;
-    } else if (count % 3 === 0) {
-      color = red;
-      count = 1;
-    } else {
-      count ++;
-    }
-
-    console.log(color(number));
+function getColor(n) {
+  switch (n % 3) {
+    case 0:
+      return green;
+    case 1:
+      return yellow;
+    case 2:
+      return red;
   }
 }
+
+let primeCount = 0;
+
+const isPrime = (number) => {
+  if (number < 2) return false;
+
+  for (let i = 2; i <= number / 2; i++) {
+    if (number % i === 0) return false;
+  }
+
+  return true;
+};
+
+for (let i = from; i <= to; i++) {
+  if (isPrime(i)) {
+    const color = getColor(primeCount);
+    primeCount++;
+    console.log(color(i));
+  }
+}
+
+if (!primeCount) throw new Error(red('There are no prime numbers.'));
