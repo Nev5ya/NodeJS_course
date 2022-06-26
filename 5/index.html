@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Manager</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&display=swap');
+        body {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: flex-start;
+            background-color: #449816;
+            color: #44403C;
+            font-family: 'Kdam Thmor Pro', sans-serif;
+            padding: 20px 50px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            font-size: 1.5em;
+        }
+
+        .list-item_dir::before {
+            content: '🖿  ';
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <h1>File manager</h1>
+    <h2>Path: {{ $path }}</h2>
+    <br>
+    {{ $renderHere }}
+</body>
+</html>
